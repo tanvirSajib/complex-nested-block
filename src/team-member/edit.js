@@ -1,6 +1,6 @@
-import { useBlockProps, RichText, MediaPlaceholder } from '@wordpress/block-editor';
+import { useBlockProps, RichText, MediaPlaceholder, BlockControls, MediaReplaceFlow } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { Spinner, withNotices } from '@wordpress/components';
+import { Spinner, withNotices, } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
 
@@ -57,6 +57,19 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 
 
 	return (
+		<>
+		<BlockControls>
+			<MediaReplaceFlow 
+			onSelect={ onSelectImage }
+			onSelectURL={ onSelectURL }
+			onError={ onUploadError }
+			accept="image/*"
+			allowedTypes={ [ 'image' ] }
+			mediaId={id}
+			mediaURL={url}	
+			name="Replace Image"		
+			/>
+		</BlockControls>
 		<div { ...useBlockProps() }>
 
             { url && (
@@ -75,7 +88,7 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 				onSelect={ onSelectImage }
 				onSelectURL={ onSelectURL }
 				onError={ onUploadError }
-				// accept="image/*"
+				accept="image/*"
 				allowedTypes={ [ 'image' ] }
 				disableMediaButtons={ url }
 				notices={noticeUI}
@@ -97,6 +110,7 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 				allowedFormats={ [] }
 			/>
 		</div>
+		</>
 	);
 }
 
