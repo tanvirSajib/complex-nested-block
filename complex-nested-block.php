@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name:       Complex Nested Block
- * Description:       Example block scaffolded with Create Block tool.
- * Requires at least: 6.6
- * Requires PHP:      7.2
+ * Plugin Name:       Team Members
+ * Description:       A team members grid.
+ * Requires at least: 5.7
+ * Requires PHP:      7.0
  * Version:           0.1.0
- * Author:            The WordPress Contributors
+ * Author:            Tanivr
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       complex-nested-block
+ * Text Domain:       team-members
  *
- * @package CreateBlock
+ * @package           blocks-course
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

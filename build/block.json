@@ -1,12 +1,17 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "create-block/complex-nested-block",
+  "name": "blocks-course/team-members",
   "version": "0.1.0",
-  "title": "Complex Nested Block",
-  "category": "widgets",
-  "icon": "smiley",
-  "description": "Example block scaffolded with Create Block tool.",
+  "title": "Team Members",
+  "category": "text",
+  "icon": "admin-users",
+  "description": "A team members grid.",
+  "keywords": [
+    "Team",
+    "Members",
+    "Grid"
+  ],
   "example": {},
   "supports": {
     "html": false
