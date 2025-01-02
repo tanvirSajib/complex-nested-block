@@ -32,6 +32,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 			<InnerBlocks 
 			allowedBlocks={['blocks-course/team-member']} 
+			orientation="horizontal"
 			template={[
 				[
 					'blocks-course/team-member'
@@ -42,9 +43,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				[
 					'blocks-course/team-member'
 				]
-			]} 
-			// templateLock="all"
-			// templateLock="insert"
+			]} 			
 			
 			/>
 		</div>

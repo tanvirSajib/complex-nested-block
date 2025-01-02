@@ -54,9 +54,8 @@ function Edit({
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks, {
       allowedBlocks: ['blocks-course/team-member'],
+      orientation: "horizontal",
       template: [['blocks-course/team-member'], ['blocks-course/team-member'], ['blocks-course/team-member']]
-      // templateLock="all"
-      // templateLock="insert"
     })]
   });
 }
