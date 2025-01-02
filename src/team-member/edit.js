@@ -1,6 +1,6 @@
 import { useBlockProps, RichText, MediaPlaceholder, BlockControls, MediaReplaceFlow } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { Spinner, withNotices, } from '@wordpress/components';
+import { Spinner, withNotices, ToolbarButton } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
 
@@ -37,6 +37,14 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 		noticeOperations.createErrorNotice( message );
 	};
 
+	const removeImage = () =>{
+		setAttributes({
+			url: undefined,
+			alt: '',
+			id: undefined
+		});
+	}
+
 	useEffect( () => {
 		if ( ! id && isBlobURL( url ) ) {
 			setAttributes( {
@@ -58,6 +66,7 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 
 	return (
 		<>
+		{url && (
 		<BlockControls>
 			<MediaReplaceFlow 
 			onSelect={ onSelectImage }
@@ -69,7 +78,10 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 			mediaURL={url}	
 			name="Replace Image"		
 			/>
+
+		<ToolbarButton onClick={ removeImage }>{__('Remove Image', 'text-domain')}</ToolbarButton>
 		</BlockControls>
+		)}
 		<div { ...useBlockProps() }>
 
             { url && (
