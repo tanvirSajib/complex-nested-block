@@ -10,8 +10,10 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI, isSelecte
 
 	const { name, bio, url, alt, id, socialLinks } = attributes;
 	const [ blobURL, setBlobURL ] = useState();
+	const [ selectedLink, setSelectedLink ] = useState();
 
 	const prevURL = usePrevious(url);
+	const prevIsSelected  = usePrevious(isSelected);
 
 	const titleRef = useRef();
 
@@ -117,6 +119,12 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI, isSelecte
 		}
 	}, [url, prevURL]);
 
+	useEffect( () => {
+		if ( prevIsSelected && ! isSelected ) {
+			setSelectedLink();
+		}
+	}, [ isSelected, prevIsSelected ] );
+
 
 	return (
 		<>
@@ -205,8 +213,18 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI, isSelecte
 			<ul>
 				{socialLinks.map((item, index) => {
 					return(
-						<li key={index}>
+						<li 
+						key={index}
+						className={
+							selectedLink === index
+								? 'is-selected'
+								: null
+						}
+						
+						>
+							<button onClick={() => setSelectedLink(index)} aria-label={__("Edit solic link", 'text-domailn')}>
 							<Icon icon={item.icon} />
+							</button>
 						</li>
 					);
 				})}
