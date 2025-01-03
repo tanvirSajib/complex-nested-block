@@ -1,14 +1,19 @@
 import { useBlockProps, RichText, MediaPlaceholder, BlockControls, MediaReplaceFlow, InspectorControls, store as blockEditorStore, } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { Spinner, withNotices, ToolbarButton, PanelBody, TextareaControl, SelectControl } from '@wordpress/components';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
 import {select, useSelect} from "@wordpress/data";
+import {usePrevious} from "@wordpress/compose";
 
 function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 
 	const { name, bio, url, alt, id } = attributes;
 	const [ blobURL, setBlobURL ] = useState();
+
+	const prevURL = usePrevious(url);
+
+	const titleRef = useRef();
 
 	const imageObject = useSelect((select) => {
 		const { getMedia } = select('core')
@@ -106,6 +111,12 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 		}
 	}, [ url ] );
 
+	useEffect( () => {
+		if(url && !prevURL){ 
+		titleRef.current.focus();
+		}
+	}, [url, prevURL]);
+
 
 	return (
 		<>
@@ -175,6 +186,7 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 
             
 			<RichText
+				ref={ titleRef }
 				placeholder={ __( 'Member Name', 'team-member' ) }
 				tagName="h4"
 				onChange={ onChangeName }
