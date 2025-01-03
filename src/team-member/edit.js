@@ -1,14 +1,14 @@
 import { useBlockProps, RichText, MediaPlaceholder, BlockControls, MediaReplaceFlow, InspectorControls, store as blockEditorStore, } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { Spinner, withNotices, ToolbarButton, PanelBody, TextareaControl, SelectControl } from '@wordpress/components';
+import { Spinner, withNotices, ToolbarButton, PanelBody, TextareaControl, SelectControl, Icon, Tooltip } from '@wordpress/components';
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
 import {select, useSelect} from "@wordpress/data";
 import {usePrevious} from "@wordpress/compose";
 
-function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
+function Edit( { attributes, setAttributes, noticeOperations,noticeUI, isSelected } ) {
 
-	const { name, bio, url, alt, id } = attributes;
+	const { name, bio, url, alt, id, socialLinks } = attributes;
 	const [ blobURL, setBlobURL ] = useState();
 
 	const prevURL = usePrevious(url);
@@ -200,6 +200,25 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 				value={ bio }
 				allowedFormats={ [] }
 			/>
+
+		<div className="wp-block-blocks-course-team-member-social-links">
+			<ul>
+				{socialLinks.map((item, index) => {
+					return(
+						<li key={index}>
+							<Icon icon={item.icon} />
+						</li>
+					);
+				})}
+				{isSelected && (
+				<li aria-label={__("Add solic link", 'text-domailn')}>
+					<Tooltip text={__("Add solic link", 'text-domailn')} >
+					<Icon icon="plus" />
+					</Tooltip>
+				</li>
+				)}
+			</ul>
+		</div>
 		</div>
 		</>
 	);
