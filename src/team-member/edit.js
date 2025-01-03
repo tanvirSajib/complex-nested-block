@@ -1,14 +1,49 @@
-import { useBlockProps, RichText, MediaPlaceholder, BlockControls, MediaReplaceFlow, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, RichText, MediaPlaceholder, BlockControls, MediaReplaceFlow, InspectorControls, store as blockEditorStore, } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { Spinner, withNotices, ToolbarButton, PanelBody, TextareaControl } from '@wordpress/components';
+import { Spinner, withNotices, ToolbarButton, PanelBody, TextareaControl, SelectControl } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
+import {select, useSelect} from "@wordpress/data";
 
 function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 
-
 	const { name, bio, url, alt, id } = attributes;
 	const [ blobURL, setBlobURL ] = useState();
+
+	const imageObject = useSelect((select) => {
+		const { getMedia } = select('core')
+		return id ? getMedia(id) : null;
+	}, [id])
+
+	
+	const imageSizes = useSelect( ( select ) => {
+		return select( blockEditorStore ).getSettings().imageSizes;
+	}, [] );
+
+	
+
+	const getImageSizeOptions = () => {
+		if(!imageObject) return [];
+		const options = [];
+		const sizes = imageObject.media_details.sizes;
+		
+		for( const key in sizes ){
+			const size = sizes[key];
+			const imageSize  = imageSizes.find((s) => {
+				return s.slug === key
+			})			
+			if(imageSize){
+				options.push({
+					label: imageSize.name,
+					value: size.source_url
+				})
+			}
+			
+		}
+		return options;
+		
+	}
+	
 
 	const onChangeName = ( newName ) => {
 		setAttributes( { name: newName } );
@@ -30,6 +65,10 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 			id: undefined,
 			alt: '',
 		} );
+	};
+
+	const onChangeImageSize = ( newURL ) => {
+		setAttributes( { url: newURL } );
 	};
 
 	const onUploadError = ( message ) => {
@@ -70,6 +109,15 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI } ) {
 
 	return (
 		<>
+		{id && (
+
+			<SelectControl
+				label={__("Image size", 'text-domain')}
+				options={ getImageSizeOptions() }
+				value={ url }
+				onChange={ onChangeImageSize  }
+			/>
+		)}
 		<InspectorControls>
 			<PanelBody title='Image settings'>
 				{ url && ! isBlobURL(url) && (
