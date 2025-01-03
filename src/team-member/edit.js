@@ -95,6 +95,13 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI, isSelecte
 		setAttributes({alt: newAlt});
 	}
 
+	const addNewSocialItem = () => {
+		setAttributes( {
+			socialLinks: [ ...socialLinks, { icon: 'wordpress', link: '' } ],
+		} );
+		setSelectedLink(socialLinks.lenth)
+	};
+
 	useEffect( () => {
 		if ( ! id && isBlobURL( url ) ) {
 			setAttributes( {
@@ -231,7 +238,15 @@ function Edit( { attributes, setAttributes, noticeOperations,noticeUI, isSelecte
 				{isSelected && (
 				<li aria-label={__("Add solic link", 'text-domailn')}>
 					<Tooltip text={__("Add solic link", 'text-domailn')} >
-					<Icon icon="plus" />
+					<button
+										aria-label={ __(
+											'Add Social Link',
+											'team-members'
+										) }
+										onClick={ addNewSocialItem }
+									>
+										<Icon icon="plus" />
+									</button>
 					</Tooltip>
 				</li>
 				)}
