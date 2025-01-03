@@ -10,7 +10,8 @@
 	"keywords": ["Team", "Members", "Grid"],
 	"example": {},
 	"supports": {
-		"html": false
+		"html": false,
+		"align": ["wide","full"]
 	},
 	"textdomain": "complex-nested-block",
 	"editorScript": "file:./index.js",
